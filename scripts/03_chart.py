@@ -92,8 +92,8 @@ def build(xs,ys,base2019,annual,peak,floor):
                 color=SAND,fontsize=9.5,ha="left",va="center",fontweight="bold",
                 arrowprops=dict(arrowstyle="-",color=SAND,lw=1,alpha=0.6,shrinkA=2,shrinkB=6))
 
-    # 2026 en curso: baja el tercer anio
-    ax.annotate("2026 va al 3er año\n−3.4% a/a (ene–may)",
+    # 2026 en curso: baja el tercer anio (acumulado ene-jun, con junio incluido)
+    ax.annotate("2026 va al 3er año\n−4.7% a/a (ene–jun)",
                 xy=(dt.date(2026,3,15),1.15),color=RED,fontsize=8,ha="center",
                 va="top",fontweight="bold")
 

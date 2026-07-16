@@ -6,8 +6,10 @@ Serie mensual de pasajeros de los aeropuertos de **Cancún (CUN)** y **Cozumel
 cálculo y llegue al mismo número.
 
 El dato duro cubre **enero 2000 – junio 2026** (último mes disponible al corte).
-El foco de esta entrega es la serie **2019 → presente**: la caída del cierre de
-2020 y la recuperación posterior.
+El foco de esta entrega es el techo de **2023**: tras la recuperación pospandemia,
+el tráfico anual de Cancún alcanzó su máximo histórico ese año (32.75 M) y desde
+entonces **encadena dos años a la baja** (2024 −7.1%, 2025 −3.5%), con 2026 camino
+al tercero.
 
 ## Qué hay aquí
 
@@ -59,9 +61,15 @@ trazabilidad, no dependencia.
    contrastan contra cifras previamente publicadas por el proyecto. La corrida
    imprime `CUADRA` / `NO CUADRA` para cada una (ver `02_report.py`).
 
-4. **Gráfico.** Serie mensual de Cancún, línea sobre fondo oscuro; se marca el
-   promedio mensual de 2019 como línea base y el cierre de 2020 como banda. Color
-   de línea validado por contraste sobre el fondo (≥ 3:1 para marcas gráficas).
+4. **Gráfico.** Serie mensual de Cancún (línea cian) sobre fondo oscuro, con una
+   escalera del **promedio mensual de cada año** (línea sand) superpuesta al mismo
+   eje: hace visible el ascenso pospandemia, el techo de 2023 y el descenso de
+   2024–2025 sin recurrir a un doble eje. Se marca el **máximo anual (2023)** y,
+   por separado para no confundirlos, el **máximo mensual (marzo 2024)**; se anota
+   la caída interanual de cada año y el acumulado en curso de 2026. Se conservan la
+   línea base de 2019 (punteada) y la banda del cierre de 2020, y se sombrea el
+   tramo de descenso 2023 → 2026. Ambos colores se validan por contraste sobre el
+   fondo (≥ 3:1) y por separación para daltonismo (ΔE muy por encima del piso).
 
 ## Reproducir
 
