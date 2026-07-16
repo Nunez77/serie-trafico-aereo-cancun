@@ -1,0 +1,16 @@
+Los datos derivados (output/*.csv) y los gráficos (output/*.png, output/*.svg)
+de este repositorio se publican bajo la licencia
+
+  Creative Commons Attribution 4.0 International (CC BY 4.0)
+  https://creativecommons.org/licenses/by/4.0/
+
+Eres libre de compartir y adaptar el material para cualquier fin, incluso
+comercial, siempre que des el crédito correspondiente.
+
+Atribución sugerida:
+  "Riviera Maya Economic Pulse, a partir de datos de ASUR."
+
+Los datos originales de tráfico de pasajeros son propiedad de ASUR
+(https://www.asur.com.mx/trafico-de-pasajeros-1). Este repositorio no
+redistribuye el workbook original; publica únicamente la serie derivada y el
+método para reproducirla.

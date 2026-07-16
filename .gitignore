@@ -1,0 +1,7 @@
+# entorno
+.venv/
+__pycache__/
+*.pyc
+
+# workbook original de ASUR: no se redistribuye (bajar con scripts/00_descargar.sh)
+data/Trafico_de_pasajeros_ASUR.xlsx
