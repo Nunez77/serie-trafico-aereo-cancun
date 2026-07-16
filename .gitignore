@@ -3,5 +3,7 @@
 __pycache__/
 *.pyc
 
-# workbook original de ASUR: no se redistribuye (bajar con scripts/00_descargar.sh)
+# workbooks oficiales originales: no se redistribuyen (ver scripts/00_descargar.sh)
 data/Trafico_de_pasajeros_ASUR.xlsx
+data/afac_aeropuertos_2006_2026.xlsx
+data/*.html
