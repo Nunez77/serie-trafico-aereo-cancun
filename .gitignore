@@ -7,3 +7,6 @@ __pycache__/
 data/Trafico_de_pasajeros_ASUR.xlsx
 data/afac_aeropuertos_2006_2026.xlsx
 data/*.html
+
+# UPM Cuadro 1.3.1: SÍ se archivan los snapshots (UPM sobrescribe), pero no los logs
+data/upm/*.log

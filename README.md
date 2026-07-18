@@ -34,6 +34,10 @@ scripts/
   09_tulum_riviera_afac.py   Tulum + combinado "Riviera aérea" (Cancún+Tulum) con split
   10_playa_vs_urbano_afac.py Clasifica los 68 aptos en playa vs no playa + agregados
   11_playa_barras_afac.py    Barras del cambio por destino de playa: total, doméstico e internacional
+  12_internacional_charts.py Pareto de nacionalidad (Cancún, UPM) + pax/vuelo mensual (AFAC)
+  archive_upm_1.3.1.sh       Archiva mensualmente el Cuadro 1.3.1 de UPM sin sobrescribir
+  _upm_href.py / _upm_check.py  Helpers del archivador (href de la página; validación + periodo)
+  com.rivieramayapulse.upm-archive.plist  LaunchAgent (día 15) para el archivador
 output/
   asur_pax_tidy.csv          Serie ASUR validada (CUN + CZM), formato tidy
   asur_pax_2019plus.csv      Subconjunto 2019 en adelante
@@ -47,6 +51,11 @@ output/
   panel_cancun_tulum_{1600,800}.png / .svg Small-multiple Cancún vs Tulum
   playa_{total,dom,intl}_{1600,800}.png / .svg  Barras del cambio por destino (3 versiones)
   pulse-og-riviera.jpg       Imagen OG de la pieza (cambio total por destino)
+  intl_pareto_nacionalidad_{1600,800}.png / .svg  Pareto de nacionalidad (Cancún, UPM)
+  intl_paxvuelo_mensual_{1600,800}.png / .svg     Pax por vuelo mensual, Cancún intl (AFAC)
+  upm_cancun_nacionalidad_2026_ene-may.csv        Extracto tidy del Cuadro 1.3.1 (Cancún)
+data/upm/
+  c131_YYYY_MM.xls           Snapshots archivados del Cuadro 1.3.1 de UPM (ver archivador)
 CLASSIFICATION.md        Clasificación playa/no playa de los 68 aptos, con criterio y listas
 ```
 
@@ -64,6 +73,38 @@ Todo esto sale del mismo pivot-cache de AFAC (`scripts/06`–`11`), con la
 clasificación de los 68 aeropuertos documentada en
 [`CLASSIFICATION.md`](CLASSIFICATION.md). La validación cruzada Cancún/Cozumel
 contra ASUR está en `07_region_afac.py`.
+
+## Archivo del Cuadro 1.3.1 de UPM (por qué archivamos)
+
+Para el desglose internacional por nacionalidad se usa el **Cuadro 1.3.1** de la
+Unidad de Política Migratoria (SEGOB): entradas aéreas de extranjeros por país de
+nacionalidad y punto de internación, con Cancún, Tulum y Cozumel como columnas
+propias. **UPM publica ese cuadro como un solo archivo por año que se sobrescribe
+cada mes**, así que al cerrar el año queda como año completo y se pierde la foto
+acumulada de cada mes (por ejemplo ene-may). Internet Archive tampoco lo capturó
+en la ventana relevante. Conclusión operativa: **UPM sobrescribe, nosotros
+archivamos**.
+
+`scripts/archive_upm_1.3.1.sh` baja el cuadro vigente (curl -k, el host tiene el
+cert TLS mal encadenado), valida estructura y periodo con `xlrd`, y lo guarda en
+`data/upm/c131_YYYY_MM.xls` **sin sobrescribir** (idempotente; si el periodo ya
+está archivado, no hace nada). La página viene en Latin-1, no UTF-8, por lo que la
+extracción del enlace va en Python (`_upm_href.py`). Registra cada corrida en
+`data/upm/archive.log`.
+
+Cadencia: el acumulado del mes M se publica alrededor del día 7 del mes M+2
+(evidencia: el archivo ene-may 2026 quedó guardado el 2026-07-07). El LaunchAgent
+corre el **día 15** para dar margen.
+
+```bash
+# corrida manual
+bash scripts/archive_upm_1.3.1.sh
+# activar el cron mensual (LaunchAgent de macOS)
+cp scripts/com.rivieramayapulse.upm-archive.plist ~/Library/LaunchAgents/
+launchctl load -w ~/Library/LaunchAgents/com.rivieramayapulse.upm-archive.plist
+# desactivarlo
+launchctl unload -w ~/Library/LaunchAgents/com.rivieramayapulse.upm-archive.plist
+```
 
 Los workbooks originales de ASUR y AFAC **no se redistribuyen** en este
 repositorio: se obtienen de la fuente (ver `scripts/00_descargar.sh`). Lo que se
