@@ -1,14 +1,14 @@
-# Serie histórica de tráfico aéreo — Cancún, Cozumel y Tulum
+# Serie histórica de tráfico aéreo: Cancún, Cozumel y Tulum
 
 Serie mensual de pasajeros de los aeropuertos de **Cancún (CUN)** y **Cozumel
-(CZM)** —a partir del workbook oficial de **ASUR**— y del aeropuerto de **Tulum
-(TQO)** —a partir de la Estadística Operativa de Aeropuertos de la **AFAC**, el
-regulador federal—. Datos, scripts y metodología abiertos para que cualquiera
+(CZM)** (a partir del workbook oficial de **ASUR**) y del aeropuerto de **Tulum
+(TQO)** (a partir de la Estadística Operativa de Aeropuertos de la **AFAC**, el
+regulador federal). Datos, scripts y metodología abiertos para que cualquiera
 reproduzca el cálculo y llegue al mismo número.
 
 > **Dos fuentes oficiales.** Cancún y Cozumel provienen de ASUR (el operador);
 > Tulum, de AFAC (el regulador), porque Tulum no es un aeropuerto de ASUR. Ambas
-> son oficiales. Donde se traslapan —Cancún, que aparece en las dos— coinciden al
+> son oficiales. Donde se traslapan (Cancún, que aparece en las dos) coinciden al
 > **2 pasajeros en 2023** y difieren **~0.5% en 2024 y 2025**. Se declara la mezcla
 > de fuentes de forma explícita.
 
@@ -28,17 +28,46 @@ scripts/
   03_chart.py            Gráfico de la serie mensual de Cancún (techo 2023)
   04_tulum_afac.py       Extrae Tulum del pivot-cache del Excel de AFAC + valida Cancún
   05_panel_cancun_tulum.py  Small-multiple Cancún vs Tulum a la misma escala
+  06_playa_afac.py       Serie anual de los destinos de playa vs total nacional (AFAC)
+  07_region_afac.py      Cancún/Cozumel/Chetumal con split nac/intl + validación vs ASUR
+  08_nacional_split_afac.py  Total nacional (68 aptos) + Los Cabos/PV/Mazatlán con split
+  09_tulum_riviera_afac.py   Tulum + combinado "Riviera aérea" (Cancún+Tulum) con split
+  10_playa_vs_urbano_afac.py Clasifica los 68 aptos en playa vs no playa + agregados
+  11_playa_barras_afac.py    Barras del cambio por destino de playa: total, doméstico e internacional
 output/
   asur_pax_tidy.csv          Serie ASUR validada (CUN + CZM), formato tidy
   asur_pax_2019plus.csv      Subconjunto 2019 en adelante
   afac_tulum_tidy.csv        Serie mensual de Tulum (TQO), formato tidy
+  afac_playa_*.csv           Serie anual playa vs nacional, pico y 2026 vs 2025
+  afac_region_*.csv          Cancún/Cozumel/Chetumal con split + validación vs ASUR
+  afac_nacsplit_*.csv        Total nacional + Los Cabos/PV/Mazatlán con split nac/intl
+  afac_tulum_split_*.csv     Tulum y "Riviera aérea" (Cancún+Tulum) con split
+  afac_playa_vs_urbano_ytd.csv  Agregado playa/no playa + desglose por aeropuerto
   trafico_cancun_{1600,800}.png / .svg     Gráfico Cancún
   panel_cancun_tulum_{1600,800}.png / .svg Small-multiple Cancún vs Tulum
+  playa_{total,dom,intl}_{1600,800}.png / .svg  Barras del cambio por destino (3 versiones)
+  pulse-og-riviera.jpg       Imagen OG de la pieza (cambio total por destino)
+CLASSIFICATION.md        Clasificación playa/no playa de los 68 aptos, con criterio y listas
 ```
+
+## Segunda entrega: la Riviera concentra la caída
+
+De enero a mayo de 2026, la Riviera Maya (Cancún + Tulum) perdió **294,541
+pasajeros nacionales**, más que las catorce playas del país juntas (−285,177):
+sin la Riviera, la playa mexicana **gana** viajeros nacionales. La caída nacional
+la cargan los destinos grandes, mientras La Paz, Zihuatanejo y Puerto Escondido
+crecen. En el mercado internacional el patrón no se repite: casi toda la playa
+cae, con Puerto Vallarta al frente. El país que **no** es playa gana en los dos
+mercados, así que la caída no es macro.
+
+Todo esto sale del mismo pivot-cache de AFAC (`scripts/06`–`11`), con la
+clasificación de los 68 aeropuertos documentada en
+[`CLASSIFICATION.md`](CLASSIFICATION.md). La validación cruzada Cancún/Cozumel
+contra ASUR está en `07_region_afac.py`.
 
 Los workbooks originales de ASUR y AFAC **no se redistribuyen** en este
 repositorio: se obtienen de la fuente (ver `scripts/00_descargar.sh`). Lo que se
-preserva aquí es el CSV derivado —el dato ya tidy y validado—, de modo que la liga
+preserva aquí es el CSV derivado (el dato ya tidy y validado), de modo que la liga
 a la fuente es trazabilidad, no dependencia.
 
 ## Formato del CSV (`asur_pax_tidy.csv`)

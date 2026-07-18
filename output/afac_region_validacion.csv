@@ -1,0 +1,55 @@
+aeropuerto,tipo,periodo,afac,asur,dif_pct
+Cancún,nacional,2019,8980396,8980397,-0.000
+Cancún,nacional,2020,5454995,5454995,+0.000
+Cancún,nacional,2021,9081354,9081354,+0.000
+Cancún,nacional,2022,10705896,10705897,-0.000
+Cancún,nacional,2023,11842217,11842217,+0.000
+Cancún,nacional,2024,10269004,10236245,+0.320
+Cancún,nacional,2025,9914244,9880984,+0.337
+Cancún,nacional,2025 ene-may,4006866,3989968,+0.424
+Cancún,nacional,2026 ene-may,3763732,3752379,+0.303
+Cancún,internacional,2019,16501593,16501592,+0.000
+Cancún,internacional,2020,6804153,6804153,+0.000
+Cancún,internacional,2021,13237113,13237113,+0.000
+Cancún,internacional,2022,19637065,19637064,+0.000
+Cancún,internacional,2023,20908194,20908196,-0.000
+Cancún,internacional,2024,20294735,20175275,+0.592
+Cancún,internacional,2025,19564409,19464554,+0.513
+Cancún,internacional,2025 ene-may,9144019,9105270,+0.426
+Cancún,internacional,2026 ene-may,8937353,8892050,+0.509
+Cancún,total,2019,25481989,25481989,+0.000
+Cancún,total,2020,12259148,12259148,+0.000
+Cancún,total,2021,22318467,22318467,+0.000
+Cancún,total,2022,30342961,30342961,+0.000
+Cancún,total,2023,32750411,32750413,-0.000
+Cancún,total,2024,30563739,30411520,+0.501
+Cancún,total,2025,29478653,29345538,+0.454
+Cancún,total,2025 ene-may,13150885,13095238,+0.425
+Cancún,total,2026 ene-may,12701085,12644429,+0.448
+Cozumel,nacional,2019,189640,189640,+0.000
+Cozumel,nacional,2020,69727,69727,+0.000
+Cozumel,nacional,2021,174348,174348,+0.000
+Cozumel,nacional,2022,173506,173506,+0.000
+Cozumel,nacional,2023,203999,203999,+0.000
+Cozumel,nacional,2024,258024,250593,+2.965
+Cozumel,nacional,2025,269490,263218,+2.383
+Cozumel,nacional,2025 ene-may,102745,100019,+2.725
+Cozumel,nacional,2026 ene-may,106390,104539,+1.771
+Cozumel,internacional,2019,356783,356783,+0.000
+Cozumel,internacional,2020,198563,198563,+0.000
+Cozumel,internacional,2021,357327,357327,+0.000
+Cozumel,internacional,2022,489764,489764,+0.000
+Cozumel,internacional,2023,473504,472504,+0.212
+Cozumel,internacional,2024,464346,462365,+0.428
+Cozumel,internacional,2025,385548,383388,+0.563
+Cozumel,internacional,2025 ene-may,211711,210652,+0.503
+Cozumel,internacional,2026 ene-may,205836,205042,+0.387
+Cozumel,total,2019,546423,546423,+0.000
+Cozumel,total,2020,268290,268290,+0.000
+Cozumel,total,2021,531675,531675,+0.000
+Cozumel,total,2022,663270,663270,+0.000
+Cozumel,total,2023,677503,677503,+0.000
+Cozumel,total,2024,722370,712958,+1.320
+Cozumel,total,2025,655038,646606,+1.304
+Cozumel,total,2025 ene-may,314456,310671,+1.218
+Cozumel,total,2026 ene-may,312226,309581,+0.854
