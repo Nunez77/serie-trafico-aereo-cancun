@@ -103,8 +103,11 @@ while IFS=$'\t' read -r href local_name; do
   nuevos=$((nuevos+1))
 done <"$TMPD/lista.txt"
 
-# 2) refrescar el manifiesto de checksums
-( cd "$DEST" && shasum -a 256 *.pdf 2>/dev/null | sort -k2 >SHA256SUMS.txt )
+# 2) refrescar el manifiesto de checksums.
+# LC_ALL=C fija el orden: macOS y Linux ordenan los guiones distinto y, sin esto,
+# cada corrida en la otra máquina reescribía el archivo entero y generaba un
+# commit que no cambiaba ni un hash.
+( cd "$DEST" && LC_ALL=C shasum -a 256 *.pdf 2>/dev/null | LC_ALL=C sort -k2 >SHA256SUMS.txt )
 
 log "fin: $total en el índice, $nuevos nuevos, $fallos fallidos"
 echo "OK indice=$total nuevos=$nuevos fallos=$fallos"
