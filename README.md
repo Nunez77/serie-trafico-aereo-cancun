@@ -37,7 +37,8 @@ scripts/
   12_internacional_charts.py Pareto de nacionalidad (Cancún, UPM) + pax/vuelo mensual (AFAC)
   archive_upm_1.3.1.sh       Archiva mensualmente el Cuadro 1.3.1 de UPM sin sobrescribir
   _upm_href.py / _upm_check.py  Helpers del archivador (href de la página; validación + periodo)
-  com.rivieramayapulse.upm-archive.plist  LaunchAgent (día 15) para el archivador
+  upm_cron.sh                Envoltura de cron del archivador (VPS: pull, archiva, commit+push)
+  com.rivieramayapulse.upm-archive.plist  LaunchAgent de respaldo, NO activo (ver archivador)
 output/
   asur_pax_tidy.csv          Serie ASUR validada (CUN + CZM), formato tidy
   asur_pax_2019plus.csv      Subconjunto 2019 en adelante
@@ -93,13 +94,43 @@ extracción del enlace va en Python (`_upm_href.py`). Registra cada corrida en
 `data/upm/archive.log`.
 
 Cadencia: el acumulado del mes M se publica alrededor del día 7 del mes M+2
-(evidencia: el archivo ene-may 2026 quedó guardado el 2026-07-07). El LaunchAgent
+(evidencia: el archivo ene-may 2026 quedó guardado el 2026-07-07). El archivador
 corre el **día 15** para dar margen.
 
+### Dónde corre: cron en el VPS (activo)
+
+La automatización vive en el VPS 187.77.12.2, no en la Mac: una laptop que
+duerme se pierde la corrida del mes y UPM ya sobrescribió el archivo.
+
+| | |
+|---|---|
+| Clon | `/opt/upm-archive` (este repo, rama `main`) |
+| Envoltura | `scripts/upm_cron.sh` |
+| Crontab (root) | `15 9 15 * * /opt/upm-archive/scripts/upm_cron.sh` |
+| Log | `/var/log/upm-archive.log` |
+| Credencial | deploy key SSH de solo este repo (`vps-archivador-upm`, con escritura), alias `github-upm` en `/root/.ssh/config` |
+
+El wrapper hace pull, corre el archivador y, **solo si apareció un `.xls` nuevo**,
+commitea y empuja. El `git add` está acotado a `data/upm/*.xls`: en este repo hay
+trabajo en otras carpetas y el cron no debe arrastrarlo. Si el push falla, el
+`.xls` ya quedó archivado en disco y el log lo anota; se recupera a mano.
+
 ```bash
-# corrida manual
+# corrida manual en el VPS
+ssh root@187.77.12.2 'cd /opt/upm-archive && ./scripts/upm_cron.sh; tail /var/log/upm-archive.log'
+# corrida manual en cualquier máquina (solo archiva, no versiona)
 bash scripts/archive_upm_1.3.1.sh
-# activar el cron mensual (LaunchAgent de macOS)
+```
+
+### LaunchAgent de macOS (respaldo documentado, NO activo)
+
+`scripts/com.rivieramayapulse.upm-archive.plist` queda como respaldo por si el
+VPS deja de estar disponible. **No está cargado** y no debe cargarse mientras el
+cron del VPS esté activo: los dos a la vez archivan el mismo periodo y compiten
+por el push.
+
+```bash
+# activarlo solo si el cron del VPS se apaga
 cp scripts/com.rivieramayapulse.upm-archive.plist ~/Library/LaunchAgents/
 launchctl load -w ~/Library/LaunchAgents/com.rivieramayapulse.upm-archive.plist
 # desactivarlo
