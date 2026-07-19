@@ -36,8 +36,10 @@ scripts/
   11_playa_barras_afac.py    Barras del cambio por destino de playa: total, doméstico e internacional
   12_internacional_charts.py Pareto de nacionalidad (Cancún, UPM) + pax/vuelo mensual (AFAC)
   archive_upm_1.3.1.sh       Archiva mensualmente el Cuadro 1.3.1 de UPM sin sobrescribir
+  archive_sedetur_comovamos.sh  Archiva "¿Cómo vamos?" de SEDETUR (reexpresa cifras)
+  13_tulum_operaciones_afac.py  Tulum: operaciones y pasajeros ene-may 2026 vs 2025
   _upm_href.py / _upm_check.py  Helpers del archivador (href de la página; validación + periodo)
-  upm_cron.sh                Envoltura de cron del archivador (VPS: pull, archiva, commit+push)
+  upm_cron.sh                Envoltura de cron de los archivadores (VPS: pull, archiva, commit+push)
   com.rivieramayapulse.upm-archive.plist  LaunchAgent de respaldo, NO activo (ver archivador)
 output/
   asur_pax_tidy.csv          Serie ASUR validada (CUN + CZM), formato tidy
@@ -57,6 +59,10 @@ output/
   upm_cancun_nacionalidad_2026_ene-may.csv        Extracto tidy del Cuadro 1.3.1 (Cancún)
 data/upm/
   c131_YYYY_MM.xls           Snapshots archivados del Cuadro 1.3.1 de UPM (ver archivador)
+data/sedetur/
+  como_vamos_*.pdf           Los 80 "¿Cómo vamos?" de SEDETUR + SHA256SUMS.txt
+data/benchmark/
+  jac_*.pdf/.xlsx            Benchmark Caribe: JAC República Dominicana (ver FUENTE.md)
 CLASSIFICATION.md        Clasificación playa/no playa de los 68 aptos, con criterio y listas
 ```
 
@@ -105,22 +111,65 @@ duerme se pierde la corrida del mes y UPM ya sobrescribió el archivo.
 | | |
 |---|---|
 | Clon | `/opt/upm-archive` (este repo, rama `main`) |
-| Envoltura | `scripts/upm_cron.sh` |
+| Envoltura | `scripts/upm_cron.sh` (corre UPM y SEDETUR; si una falla, la otra sigue) |
 | Crontab (root) | `15 9 15 * * /opt/upm-archive/scripts/upm_cron.sh` |
 | Log | `/var/log/upm-archive.log` |
 | Credencial | deploy key SSH de solo este repo (`vps-archivador-upm`, con escritura), alias `github-upm` en `/root/.ssh/config` |
 
-El wrapper hace pull, corre el archivador y, **solo si apareció un `.xls` nuevo**,
-commitea y empuja. El `git add` está acotado a `data/upm/*.xls`: en este repo hay
-trabajo en otras carpetas y el cron no debe arrastrarlo. Si el push falla, el
-`.xls` ya quedó archivado en disco y el log lo anota; se recupera a mano.
+El wrapper hace pull, corre los dos archivadores (UPM y SEDETUR) y, **solo si
+apareció material nuevo**, commitea y empuja. El `git add` está acotado a
+`data/upm/*.xls` y `data/sedetur/*.pdf`: en este repo hay trabajo en otras
+carpetas y el cron no debe arrastrarlo. Si una fuente falla, la otra sigue y el
+wrapper sale con código 2. Si el push falla, lo archivado ya quedó en disco y el
+log lo anota; se recupera a mano.
 
 ```bash
 # corrida manual en el VPS
 ssh root@187.77.12.2 'cd /opt/upm-archive && ./scripts/upm_cron.sh; tail /var/log/upm-archive.log'
 # corrida manual en cualquier máquina (solo archiva, no versiona)
 bash scripts/archive_upm_1.3.1.sh
+bash scripts/archive_sedetur_comovamos.sh
 ```
+
+## Archivo de "¿Cómo vamos?" de SEDETUR (por qué archivamos)
+
+UPM sobrescribe un archivo por año. SEDETUR hace algo distinto y peor de detectar:
+**publica archivos nuevos y corrige hacia atrás los números ya publicados.**
+
+Caso verificado el 19 de julio de 2026, afluencia de turistas al Caribe Mexicano,
+acumulado enero-marzo de 2025:
+
+| Reporte que se consulte | Total ene-mar 2025 |
+|---|---:|
+| `data/sedetur/como_vamos_202503.pdf`, p.8 (publicado en 2025) | 5,384,416 |
+| `data/sedetur/como_vamos_202603.pdf`, p.8 (base del reporte de 2026) | 5,232,585 |
+| Diferencia | **−151,831 (−2.82%)** |
+
+Las dos cifras son de SEDETUR, dicen medir lo mismo, y difieren en casi tres
+puntos. Consecuencia operativa: **una variación interanual que tome el año en
+curso de un reporte y el año anterior de otro es falsa.** Solo son válidas las
+comparaciones internas a un mismo PDF, y para poder hacerlas hay que conservar
+todos los PDFs. De ahí este archivo.
+
+`scripts/archive_sedetur_comovamos.sh` lee el índice de
+`sedeturqroo.gob.mx/ARCHIVOS/comovamos/`, baja lo que falte y refresca
+`data/sedetur/SHA256SUMS.txt`. Valida HTTP 200, tamaño mínimo y cabecera `%PDF`
+(el 404 del sitio devuelve HTML, que sin ese chequeo se archivaría como si fuera
+un PDF). Registra cada corrida en `data/sedetur/archive.log`.
+
+Dos rarezas de la fuente que el script ya contempla:
+
+- **Nomenclatura.** `como_vamos_AAAAMM.pdf` donde MM es el mes de **cierre de un
+  acumulado que arranca en enero**, no un mes suelto. Hay huecos: `como_vamos_202602`
+  nunca se publicó (404).
+- **Colisión de nombres.** El directorio tiene `COMO VAMOS ABRIL 2021.pdf` y
+  `COMO_VAMOS_ABRIL_2021.pdf`, que al normalizar caen en el mismo nombre pero son
+  archivos distintos (2.3 MB contra 4.9 MB, hashes distintos). Cuando dos href
+  chocan se les añade un sufijo estable derivado del href, así que ambos se
+  conservan y la corrida sigue siendo idempotente.
+
+Al 19 de julio de 2026 el archivo tiene los **80 PDFs** del directorio, de 2017 a
+mayo de 2026. Pesan cerca de 250 MB, así que clonar este repo ya no es barato.
 
 ### LaunchAgent de macOS (respaldo documentado, NO activo)
 
