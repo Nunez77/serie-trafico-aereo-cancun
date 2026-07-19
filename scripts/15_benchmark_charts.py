@@ -6,7 +6,9 @@
       de restarlos tiene que ser visible en el gráfico, no en una nota al pie.
   G2) Agregado contra mercado de Estados Unidos, barras pareadas por destino.
 
-Títulos provisionales; los definitivos van con el H2 editorial.
+Títulos DEFINITIVOS, alineados con los H2 aprobados:
+  G1 lleva el H2 de S2 ("Cuatro suben, uno baja"). No repite el H1 de la pieza.
+  G2 lleva el H2 de S3 ("El crecimiento no es estadounidense").
 
 REGLA QUE GOBIERNA ESTOS GRÁFICOS: cada destino viene de una autoridad distinta y
 mide un universo distinto (pasajeros de terminal, llegadas migratorias, stayover).
@@ -100,7 +102,7 @@ def g1(fs_tick=9.2, fs_val=11, fs_uni=7.4):
     ax.set_yticklabels(["-5%", "0", "+5%", "+10%"], color=MUTE, fontsize=fs_tick - 0.7)
     ax.set_xlim(-0.62, len(G1) - 0.38)
 
-    fig.text(0.075, 0.955, "El Caribe crece sin nosotros",
+    fig.text(0.075, 0.955, "Cuatro suben, uno baja",
              color="#FFFFFF", fontsize=15.5, fontweight="bold", ha="left", va="top")
     fig.text(0.075, 0.905, "Variación del flujo de visitantes, enero-mayo 2026 contra 2025",
              color=MUTE, fontsize=9.8, ha="left", va="top")

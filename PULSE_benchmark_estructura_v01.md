@@ -1,8 +1,22 @@
 # Benchmark Caribe: estructura v01
 
-H1 de trabajo, **no final**: "El Caribe crece sin nosotros".
-Los H2 los decide Fernando. Aquí solo van el esqueleto, las asignaciones de tabla y
-gráfico, y los bullets de datos. **Sin prosa editorial.**
+## Encabezados aprobados por Fernando
+
+**H1:** El Caribe crece sin nosotros
+
+**Dek:** Cuatro destinos comparables del Caribe crecieron entre 9 y 10.6% mientras
+Cancún cayó. Y no crecieron por el estadounidense: crecieron porque no dependen de él.
+
+| Sección | H2 |
+|---|---|
+| S1 | (apertura, sin H2, va bajo el dek) |
+| S2 | Cuatro suben, uno baja |
+| S3 | El crecimiento no es estadounidense |
+| S4 | La diversificación, en una cifra |
+| Recuadro metodológico | Lo que se puede comparar y lo que no |
+
+Aquí van el esqueleto, las asignaciones de tabla y gráfico, y los bullets de datos.
+**Sin prosa editorial:** el cuerpo todavía no está redactado.
 
 Fuente de todas las cifras: `PULSE_benchmark_caribe_scoping.md`, secciones 1 a 10.
 Evidencia archivada con checksums en `data/benchmark/`.
@@ -19,8 +33,10 @@ Evidencia archivada con checksums en `data/benchmark/`.
 | G2 | `output/benchmark_g2_agregado_vs_eu` | `_800.png`, `_1600.png`, `.svg` |
 | Script | `scripts/15_benchmark_charts.py` | reproducible |
 
-Títulos provisionales dentro de los gráficos:
-G1 "El Caribe crece sin nosotros"; G2 "El crecimiento no es estadounidense".
+Títulos dentro de los gráficos, ya alineados con los H2 aprobados:
+G1 lleva "Cuatro suben, uno baja" (H2 de S2) y G2 "El crecimiento no es
+estadounidense" (H2 de S3). G1 **no** repite el H1 de la pieza, que era su título
+provisional.
 
 ---
 
@@ -48,9 +64,8 @@ leen lado a lado. **Ninguna resta entre filas.**
 
 ## Esqueleto de secciones
 
-### S1. Apertura
-- **Asset:** G1.
-- **Tabla:** tabla firma completa.
+### S1. Apertura (sin H2, va bajo el dek)
+- **Asset:** tabla firma completa.
 - **Bullets de datos:**
   - Cancún, enero-mayo 2026 contra 2025: **−3.4%** (13,150,885 a 12,701,085 pasajeros de terminal, AFAC).
   - Punta Cana, mismo corte: **+10.6%** (2,431,855 a 2,688,696 llegadas, Banco Central).
@@ -58,8 +73,14 @@ leen lado a lado. **Ninguna resta entre filas.**
   - Aruba: **+10.4%** (635,965 a 702,158 stayover).
   - Curazao: **+9.0%** (342,554 a 374,216 stayover).
 
-### S2. La capa fina: de dónde viene ese crecimiento
-- **Asset:** G2.
+### S2. "Cuatro suben, uno baja"
+- **Asset:** **G1** (`benchmark_g1_variacion_destino`). El gráfico ya lleva ese título.
+- **Bullets de datos:** los cinco de S1, leídos como contraste. El universo de cada
+  destino va rotulado dentro del propio gráfico, así que aquí no hace falta repetirlo.
+- **Nota obligatoria:** Punta Cana está dentro de Rep. Dominicana. No se suman.
+
+### S3. "El crecimiento no es estadounidense"
+- **Asset:** **G2** (`benchmark_g2_agregado_vs_eu`). El gráfico ya lleva ese título.
 - **Bullets de datos:**
   - En los cuatro destinos que crecen, el agregado sube entre **9.0% y 10.6%** y el mercado estadounidense entre **4.4% y 6.2%**. El mercado de Estados Unidos crece menos que el total en los cuatro, sin excepción.
   - Punta Cana: total **+10.6%**, Estados Unidos **+4.6%**.
@@ -68,7 +89,7 @@ leen lado a lado. **Ninguna resta entre filas.**
   - Curazao: total **+9.0%**, Estados Unidos **+6.0%**.
   - Cancún, pata Estados Unidos (BTS T-100, enero-abril, universo distinto): **−6.4%**, con asientos **+0.25%** y factor de ocupación de **83.3% a 77.8%**.
 
-### S3. Recuadro destacado: Aruba, la diversificación en una cifra
+### S4. "La diversificación, en una cifra"
 - **Formato:** recuadro (estilo `.limitbox` o equivalente), no párrafo corrido.
 - **Bullets de datos:**
   - Aruba sumó **66,193** stay over arrivals en enero-mayo 2026 contra 2025.
@@ -77,7 +98,7 @@ leen lado a lado. **Ninguna resta entre filas.**
   - La participación de Estados Unidos en el stayover de Aruba cayó de **74.2% a 70.2%** (dato publicado por ATA).
   - Estados Unidos creció **+4.4%** mientras el total creció **+10.4%**.
 
-### S4. Enlace conceptual con "Dos pasaportes"
+### S5. Enlace con "Dos pasaportes" (dentro de S4 o como cierre, a decidir)
 - **Formato:** bullets de datos, dos series lado a lado. Los números hacen el trabajo.
 - **Bullets de datos:**
   - Cancún, composición de extranjeros por nacionalidad, enero-mayo 2026 (UPM, Cuadro 1.3.1): Estados Unidos y Canadá suman **75.6%**. El tercer mercado, Reino Unido, no llega a **3.5%** (publicado en "Dos pasaportes").
@@ -86,12 +107,12 @@ leen lado a lado. **Ninguna resta entre filas.**
   - Rep. Dominicana: total **+10.0%** con Estados Unidos en **+6.2%**.
 - **Nota de universo obligatoria en esta sección:** la cifra de Cancún es de UPM (entradas de extranjeros) y las de los otros destinos son de sus autoridades nacionales (stayover y llegadas). Van lado a lado, no se restan.
 
-### S5. Recuadro metodológico
+### Recuadro. "Lo que se puede comparar y lo que no"
 - **Formato:** recuadro al cierre, antes de la firma. Contenido completo en el bloque de abajo.
 
 ---
 
-## Recuadro metodológico (contenido)
+## Recuadro "Lo que se puede comparar y lo que no" (contenido)
 
 ### Universos, uno por fuente
 
@@ -164,9 +185,14 @@ distintas es falsa.
 ## Pendientes de estructura
 
 - H2 de cada sección: los decide Fernando.
-- Falta decidir si Punta Cana y Rep. Dominicana van ambos en la tabla firma o si
-  Punta Cana se queda solo en el cuerpo. Hoy están los dos, con la nota de que no se
-  suman.
+- **El "cuatro" del dek depende de contar Punta Cana como destino propio.** Los que
+  crecen son Rep. Dominicana (+10.0%), Aruba (+10.4%), Curazao (+9.0%) y Punta Cana
+  (+10.6%). El rango "entre 9 y 10.6%" cuadra exacto con esos cuatro, pero **Punta
+  Cana está dentro de Rep. Dominicana** y aporta el 59.1% de sus llegadas: son los
+  mismos pasajeros contados en dos filas. Si se cuentan como tres países (Rep.
+  Dominicana, Aruba, Curazao), el rango sería "entre 9 y 10.4%". Las dos versiones
+  son defendibles si el traslape se declara; hoy la tabla firma y G1 muestran los
+  cinco con la nota "Punta Cana está dentro de Rep. Dominicana; no se suman".
 - Falta decidir si G2 incluye a Cancún. Hoy sí, con barra rayada y leyenda propia,
   porque su cifra de Estados Unidos es de otro universo y otro corte.
 - Junio 2026 existe para Curazao y Rep. Dominicana pero no para Aruba, así que el
