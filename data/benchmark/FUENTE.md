@@ -1,27 +1,23 @@
-# Benchmark Caribe: República Dominicana (JAC)
+# Benchmark Caribe: índice de fuentes
 
-Primera pieza del benchmark regional. Se archiva porque el sitio de la JAC
-reorganiza rutas de `wp-content/uploads/` y el reporte histórico se **sustituye**
-cada mes por una versión con el corte nuevo en el nombre del archivo: el enlace
-de hoy no resuelve mañana.
+Carpeta de evidencia del scoping "¿A dónde se fue el turista?".
+Ver `PULSE_benchmark_caribe_scoping.md` en la raíz del repo.
 
-| Archivo | Qué es | Corte | Descargado |
-|---|---|---|---|
-| `Informe-Estadistico-del-Transporte-Aero_2025.pdf` | Informe Estadístico anual del Transporte Aerocomercial 2025, 50 páginas. Tráfico por aeropuerto, top de aerolíneas y destinos, regular y no regular | año 2025 | 2026-07-19 |
-| `Reporte-Historico-2005-jun.-2026.pdf` | Serie histórica, 364 páginas | 2005 a jun 2026 | 2026-07-19 |
-| `Reporte-Historico-2005-jun.-2026.xlsx` | La misma serie en hoja de cálculo, que es la versión explotable | 2005 a jun 2026 | 2026-07-19 |
+| Carpeta | País | Fuente | Universo | Corte | Rezago |
+|---|---|---|---|---|---|
+| (raíz) | Rep. Dominicana | JAC | pasajeros de terminal (entrada + salida) | jun 2026 | corto |
+| `republica_dominicana/` | Rep. Dominicana | Banco Central | llegadas, registro migratorio | jun 2026 | 9 días |
+| `aruba/` | Aruba | ATA | stayover arrivals | may 2026 | 20 a 40 días |
+| `curazao/` | Curazao | CTB | stayover arrivals | jun 2026 | 9 a 10 días |
+| `jamaica/` | Jamaica | JTB | stopover, por residencia permanente | may 2026 | 48 días |
+| `bahamas/` | Bahamas | Ministry of Tourism | llegadas aéreas, incluye tránsito | may 2026 | 33 días |
+| `emisores/` | EU y Canadá | NTTO y StatCan | salidas y retornos de residentes | mar y abr 2026 | 2 meses |
 
-Origen: Junta de Aviación Civil de la República Dominicana, `jac.gob.do`,
-sección Transparencia > Estadísticas Institucionales.
-La JAC elabora estas cifras a partir de la base de datos del IDAC.
+**Regla que aplica a toda la carpeta:** cada país mide un universo distinto. Las
+cifras van lado a lado con su etiqueta, **nunca restadas entre sí**. Cada subcarpeta
+tiene su propio `FUENTE.md` con el universo citado literal y sus advertencias.
 
-## Universo, para no mezclarlo con las series mexicanas
-
-La JAC cuenta **pasajeros de entrada y salida en vuelos comerciales** y
-**operaciones** (movimiento de aeronaves) de los aeropuertos dominicanos.
-Es un universo parecido al de AFAC en México, pero **son dos autoridades
-distintas sobre dos países distintos**: sirven para comparar tendencias, nunca
-para sumarse ni restarse entre sí. Cualquier comparación Cancún contra Punta
-Cana se declara como lo que es, dos fuentes nacionales puestas lado a lado.
-
-Checksums en `SHA256SUMS.txt`.
+**Por qué se archiva todo esto.** Tres de las fuentes de este scoping reexpresan
+cifras ya publicadas sin anunciarlo: SEDETUR (−2.82%), NTTO (−3.07% implícito) y la
+JAC (−0.14%). Solo se detecta comparando dos cosechas del mismo dato, y para eso
+hay que conservarlas.

@@ -1,0 +1,16 @@
+HTTP/2 200 
+date: Sun, 19 Jul 2026 17:42:01 GMT
+content-type: application/vnd.ms-excel
+content-length: 829440
+vary: Accept-Encoding
+last-modified: Thu, 09 Jul 2026 18:57:08 GMT
+etag: 0x8DEDDEBE06B7C93
+x-ms-request-id: 1bc3daa3-801e-0046-2ea5-1787d5000000
+x-ms-version: 2009-09-19
+x-ms-lease-status: unlocked
+x-ms-blob-type: BlockBlob
+x-azure-ref: 20260719T174201Z-17648579d54l6vpmhC1QRObxzw000000187g000000003r0a
+x-fd-int-roxy-purgeid: 10
+x-cache: TCP_MISS
+accept-ranges: bytes
+

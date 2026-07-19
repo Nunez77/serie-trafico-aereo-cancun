@@ -1,0 +1,16 @@
+HTTP/2 200 
+date: Sun, 19 Jul 2026 18:12:29 GMT
+content-type: application/pdf
+content-length: 232081
+vary: Accept-Encoding
+last-modified: Mon, 29 Jun 2026 17:36:34 GMT
+etag: 0x8DED604F6F410B2
+x-ms-request-id: 3b9a987f-e01e-000d-28aa-177b86000000
+x-ms-version: 2009-09-19
+x-ms-lease-status: unlocked
+x-ms-blob-type: BlockBlob
+x-azure-ref: 20260719T181229Z-16c99cf4c869dtd6hC1DFWpafg0000000tqg0000000033dh
+x-fd-int-roxy-purgeid: 10
+x-cache: TCP_MISS
+accept-ranges: bytes
+
