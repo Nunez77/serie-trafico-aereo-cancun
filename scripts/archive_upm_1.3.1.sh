@@ -8,11 +8,16 @@
 # sufijo de periodo (c131_YYYY_MM.xls) para conservar la serie mensual.
 #
 # Cadencia: el acumulado del mes M se publica ~día 7 del mes M+2 (evidencia:
-# ene-may 2026 guardado 2026-07-07). El LaunchAgent corre el día 15 para dar
-# margen. El host portales.segob.gob.mx tiene cert TLS mal encadenado -> curl -k.
+# ene-may 2026 guardado 2026-07-07). Corre el día 15 para dar margen, por cron
+# en el VPS (ver scripts/upm_cron.sh). El host portales.segob.gob.mx tiene el
+# cert TLS mal encadenado -> curl -k.
 #
 # Idempotente: si el archivo del periodo ya existe, no lo vuelve a bajar.
+# Portable macOS/Linux: el tamaño se lee con stat de GNU o de BSD, según haya.
 set -uo pipefail
+
+# stat -c es GNU (Linux) y stat -f es BSD (macOS); el script corre en los dos.
+tamano(){ stat -c%s "$1" 2>/dev/null || stat -f%z "$1" 2>/dev/null || echo 0; }
 
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
 DEST="$REPO/data/upm"
@@ -32,7 +37,9 @@ log(){ echo "$(date '+%Y-%m-%d %H:%M:%S') $*" >>"$LOG"; }
 # viene en Latin-1 (no UTF-8), lo que rompe grep en locale UTF-8; por eso la
 # extracción va en Python (_upm_href.py, decodifica latin-1). Se reintenta porque
 # el host responde vacío de forma intermitente.
-PAGE_TMP="$(mktemp -t c131page.XXXXXX)"
+TMPD="$(mktemp -d)"
+trap 'rm -rf "$TMPD"' EXIT
+PAGE_TMP="$TMPD/pagina.html"
 href=""
 for try in 1 2 3 4 5; do
   curl -sk -A "$UA" --max-time 40 -o "$PAGE_TMP" "$PAGE" 2>/dev/null
@@ -40,7 +47,6 @@ for try in 1 2 3 4 5; do
   [ -n "$href" ] && break
   sleep 5
 done
-rm -f "$PAGE_TMP"
 if [ -z "$href" ]; then
   log "FALLO no se encontró el href de 1.3.1 en la página ${YEAR} tras 5 intentos (¿cambió el sitio?)"
   echo "FALLO href"; exit 1
@@ -48,10 +54,9 @@ fi
 URL="${BASE}/${href}"
 
 # 2) descargar a temporal
-TMP="$(mktemp -t c131.XXXXXX).xls"
-trap 'rm -f "$TMP"' EXIT
+TMP="$TMPD/c131.xls"
 code="$(curl -sk -A "$UA" --retry 4 --retry-delay 5 --max-time 120 -o "$TMP" -w '%{http_code}' "$URL" 2>/dev/null)"
-size="$(stat -f%z "$TMP" 2>/dev/null || echo 0)"
+size="$(tamano "$TMP")"
 if [ "$code" != "200" ] || [ "$size" -lt 500000 ]; then
   log "FALLO descarga http=$code size=${size}b url=$URL"
   echo "FALLO descarga"; exit 1
@@ -71,6 +76,6 @@ if [ -e "$OUT" ]; then
   log "OK sin cambio: c131_${y}_${m}.xls ya existe (periodo vigente ya archivado)"
   echo "SKIP existe c131_${y}_${m}.xls"; exit 0
 fi
-mv "$TMP" "$OUT"; trap - EXIT
+mv "$TMP" "$OUT"
 log "OK archivado c131_${y}_${m}.xls (${size}b) desde $URL"
 echo "OK c131_${y}_${m}.xls"
