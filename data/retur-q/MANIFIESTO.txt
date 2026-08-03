@@ -1,0 +1,67 @@
+MANIFIESTO DE EXTRACCION - Catalogo Oficial RETUR-Q (SITUR-Q)
+================================================================
+
+Fuente:            https://siturq.gob.mx/catalogo-oficial
+Ruta en portal:    Menu "Oferta" > "Catalogo Oficial de Prestadores de Servicios"
+Titular del dato:  Gobierno del Estado de Quintana Roo, Secretaria de Turismo (SEDETUR)
+Sistema:           RETUR-Q (Registro Turistico de Quintana Roo) ciclo 2026
+Fecha de captura:  2026-07-22 (hora local del portal ~23:20)
+Metodo:            HTML servidor renderizado, descargado con curl; parseo determinista con Python
+                   sobre atributos data-* de cada tarjeta (.card).
+
+FILTRO APLICADO
+---------------
+Categoria:  "Alojadores y personas anfitrionas"
+            (data-category = 11404050-bb56-11ee-9f1c-00090ffe0001)
+Municipio:  Solidaridad
+            NOTA: el filtro del portal etiqueta este municipio como "Playa del Carmen"
+            (data-municipality = "Playa del Carmen"); es la cabecera del municipio de
+            Solidaridad. No existe una opcion literal "Solidaridad" en el selector.
+
+CONTEO
+------
+Registros "Alojadores y personas anfitrionas" en Solidaridad:  224
+Registros "Alojadores y personas anfitrionas" en todo QRoo:    984  (referencia comparativa)
+Total de tarjetas en el catalogo completo (todas categorias/municipios): 3350
+
+CAMPOS DISPONIBLES EN EL CATALOGO PUBLICO
+-----------------------------------------
+Por cada prestador, la ficha publica expone UNICAMENTE:
+  - nombre (data-name)
+  - categoria (subtitulo de la tarjeta)
+  - telefono
+  - correo electronico
+  - horario de atencion
+  - iconos/distintivos (sitio web, redes sociales, estacionamiento, mascotas,
+    accesibilidad) cuando el prestador los tiene; distintivo "E" de registro.
+Atributos tecnicos internos de la tarjeta: data-id, data-municipality, data-destination,
+data-category.
+
+CAMPOS NO PRESENTES (solicitados y ausentes)
+--------------------------------------------
+  - colonia:                    NO expuesto
+  - codigo postal:              NO expuesto
+  - numero de unidades/habitaciones: NO expuesto
+No hay ficha de detalle: el enlace del nombre es href="#" y no abre vista ampliada.
+Estos campos podrian existir en el back-office de RETUR-Q (retur-q.siturq.gob.mx, requiere
+login) pero no en la capa publica.
+
+DESCARGA / FORMATO
+------------------
+El portal NO ofrece descarga en CSV ni Excel.
+Boton "Opciones" solo permite: "Exportar a JPG" y "Exportar a PDF"
+(renderiza la vista actual como imagen o PDF; no es dato estructurado).
+Los CSV/JSON de este archivo fueron construidos por extraccion propia, no descargados del portal.
+
+ARCHIVOS
+--------
+retur-q_catalogo-oficial_RAW.html    HTML crudo integro del catalogo (fuente de verdad, 3350 tarjetas)
+retur-q_solidaridad_alojadores.csv   224 registros filtrados, delimitado por comas, UTF-8
+retur-q_solidaridad_alojadores.json  224 registros filtrados, JSON
+CHECKSUMS.sha256                      hashes SHA-256 (verificar con: shasum -a 256 -c CHECKSUMS.sha256)
+
+CHECKSUMS SHA-256
+-----------------
+35a07ad843c94888ae610a58002ae647d516018215c7c5290a1d7a06b94ef4e0  retur-q_catalogo-oficial_RAW.html
+d29f6e21bcb24ffd0ded52461607d0228aee8282c820f608d73847ba3cb2276a  retur-q_solidaridad_alojadores.csv
+68db9528e62442dbdcbace3e495930814ea49e50c6d2ca09542caf6db5e1f986  retur-q_solidaridad_alojadores.json

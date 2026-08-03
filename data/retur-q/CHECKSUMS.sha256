@@ -1,0 +1,20 @@
+# CHECKSUMS SHA-256 · data/retur-q/
+# Extendido el 2 de agosto de 2026: antes cubria solo los 3 archivos de datos;
+# ahora cubre tambien los 3 documentos de texto.
+# Verificar:  shasum -a 256 -c CHECKSUMS.sha256
+#
+# Este archivo NO se cubre a si mismo, y no puede: escribir su propio hash dentro
+# lo cambiaria e invalidaria el hash. Es circular por definicion, no una omision.
+# Su integridad la garantiza git desde el 2-ago-2026. Ver CIERRE.md, ultima seccion.
+#
+# OJO: los 3 archivos de DATOS contienen datos personales (224 telefonos y correos)
+# y viven en repositorio PRIVADO. En el publico solo estan los 3 documentos de texto
+# y este archivo. Por eso una verificacion en el repo publico dara 'No such file'
+# para los tres primeros renglones: es lo esperado, no una falla.
+#
+35a07ad843c94888ae610a58002ae647d516018215c7c5290a1d7a06b94ef4e0  retur-q_catalogo-oficial_RAW.html
+d29f6e21bcb24ffd0ded52461607d0228aee8282c820f608d73847ba3cb2276a  retur-q_solidaridad_alojadores.csv
+68db9528e62442dbdcbace3e495930814ea49e50c6d2ca09542caf6db5e1f986  retur-q_solidaridad_alojadores.json
+d61b309857ef04d743bab936c703ab976e927af51204750177b8760603418ca2  MANIFIESTO.txt
+5c06ff2dcaa156f31063a6d4267526e865775400845ffa5e8d8e0dfc5560bd6b  RECON_backoffice.txt
+1b038ee04013d60619e8837d19844d0c9be24c365b58b10d1ca78f9cae937104  CIERRE.md

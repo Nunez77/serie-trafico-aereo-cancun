@@ -1,0 +1,49 @@
+RECONOCIMIENTO - Back-office RETUR-Q (retur-q.siturq.gob.mx)
+===========================================================
+Fecha: 2026-07-22   Metodo: solo GET, headers de navegador estandar, sin autenticacion.
+Alcance: enumeracion de endpoints publicos. No se enviaron credenciales ni formularios.
+
+STACK
+-----
+nginx/1.28.0 ; PHP/8.2.30 ; Laravel (cookies returq_session + XSRF-TOKEN, _token CSRF,
+Sanctum activo) ; plantilla AdminLTE. Header X-Frame-Options: ALLOWALL (permisivo).
+
+AUTENTICACION
+-------------
+/ y /home  -> 302 a /login (todo el panel esta detras de login).
+   redirect de /home: https://retur-q.siturq.gob.mx/login
+Login por: Usuario (RFC) + Contraseña + remember. Campo CSRF _token. POST a /login.
+Recuperar password: /usuarios/recuperar-password -> pide un unico campo: rfc.
+Registro: /usuarios/registrar (2 pasos, POST a /usuarios/guardar y /usuarios/guardar_dos).
+
+ENDPOINTS / ARCHIVOS PROBADOS
+-----------------------------
+200  /login, /usuarios/registrar, /usuarios/recuperar-password, /robots.txt (Disallow vacio)
+302  /home, /api/user            (protegidos por auth)
+204  /sanctum/csrf-cookie        (solo fija cookie CSRF; sin datos)
+405  /usuarios/guardar, /usuarios/guardar_dos   (POST-only; envio de registro)
+403  /.git/config                (existe pero bloqueado)
+404  /api, /api/v1, /api/catalogo, /api/negocios, /api/prestadores, /negocios,
+     /prestadores, /catalogo, /datos, /export, /descargar, /padron, /registro,
+     /reportes, /dashboard, /admin, /.env, /telescope, /_debugbar, /storage/logs/*
+
+RESPUESTA A LA PREGUNTA (colonia / CP / numero de unidades sin login)
+--------------------------------------------------------------------
+NO se encontro ningun endpoint publico sin autenticacion que devuelva colonia, codigo
+postal ni numero de unidades de los registros. Todo dato de prestadores esta detras de /login.
+
+PERO: el sistema SI captura y almacena esos campos de direccion. El JS de registro
+(assets/js/usuarios-registrar.js) maneja un objeto "dataSATQ" con exactamente estos campos,
+poblado por una validacion contra el SAT/SATQ ligada al RFC del propio solicitante:
+   domCalle, domNumero, domUbicacion, domColonia, domCP, domLocalidad, domMunicipio,
+   nombreRazonSocial, nombreEstablecimiento (nombre comercial), email, rfc, lfe, tipo.
+Ese objeto se muestra al usuario que registra SU propio RFC durante el alta; no es un
+volcado publico de todos los registros y depende del flujo de registro/validacion (POST).
+No aparece en el JS accesible ningun campo de "numero de unidades/habitaciones": ese dato,
+de existir, vive en el paso autenticado (guardar_dos) del panel.
+
+CONCLUSION
+----------
+La capa publica (catalogo en siturq.gob.mx) NO expone colonia/CP/unidades y el back-office
+tampoco los expone sin credenciales. Los campos de domicilio existen en el modelo de datos
+(via validacion SAT en el alta), pero su acceso esta cerrado tras autenticacion por RFC.

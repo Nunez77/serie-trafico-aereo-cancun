@@ -14,3 +14,9 @@ data/upm/*.log
 # SEDETUR "¿Cómo vamos?": SÍ se archivan los PDF (SEDETUR reexpresa cifras ya
 # publicadas), pero no los logs
 data/sedetur/*.log
+
+# RETUR-Q: los datos con telefono/correo viven en repo PRIVADO (returq-solidaridad-privado).
+# Aqui solo va la documentacion sin datos personales. Ver data/retur-q/CIERRE.md.
+data/retur-q/retur-q_catalogo-oficial_RAW.html
+data/retur-q/retur-q_solidaridad_alojadores.csv
+data/retur-q/retur-q_solidaridad_alojadores.json
